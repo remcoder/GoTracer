@@ -1,11 +1,14 @@
-var url = ''; // Initialize url as empty
-var canvas;
-var canvas2;
-var preview;
-var timer = null;
-var img = new Image();
-var crosshair = new Image();
-var goTracer = null; // Initialize later
+import { GoTracer, Point } from './gotracer.js';
+import { Preview } from './preview.js';
+
+let url = ''; // Initialize url as empty
+let canvas;
+let canvas2;
+let preview;
+let timer = null;
+const img = new Image();
+const crosshair = new Image();
+let goTracer = null; // Initialize later
 
 // Call init when script loads
 init();

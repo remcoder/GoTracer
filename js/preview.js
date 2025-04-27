@@ -1,4 +1,4 @@
-function Preview(cvs)
+export function Preview(cvs)
 {
   this.canvas = cvs;
   this.ctx = this.canvas.getContext('2d');

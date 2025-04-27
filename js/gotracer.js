@@ -1,4 +1,4 @@
-function GoTracer(img, canvas, debugCanvas, crosshair)
+export function GoTracer(img, canvas, debugCanvas, crosshair)
 {
   this.img = img;
   
@@ -55,7 +55,7 @@ GoTracer.prototype.drawImage = function()
   this.canvasHeight = Math.min(900 / aspectRatio, 600);
   this.canvas.style.width = this.canvasWidth + "px";
   this.canvas.style.height = this.canvasHeight + "px";
-  this.ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height);
+  this.ctx.drawImage(this.img, 0, 0, this.canvas.width, this.canvas.height);
 };
 GoTracer.prototype.drawCrosshairs = function()
 {  
@@ -215,7 +215,7 @@ GoTracer.prototype.getSGF = function()
 };
 
 
-function Point(x,y)
+export function Point(x,y)
 {
   this.x = x;
   this.y = y;
@@ -251,7 +251,7 @@ Point.prototype.toString = function()
 };
 
 // A * x + B * y = C
-function Line(p0, p1)
+export function Line(p0, p1)
 {
   this.A = p1.y - p0.y;
   this.B = p0.x - p1.x;
@@ -277,7 +277,7 @@ Line.prototype.getDistanceTo = function(p)
   return Math.abs(this.A * p.x + this.B * p.y - this.C) / this.getLength();
 };
 
-function Rect3D(corners)
+export function Rect3D(corners)
 {
   this.a = corners[0];
   this.b = corners[1];
@@ -303,7 +303,7 @@ Rect3D.prototype.getPoint = function(fx, fy)
   return this.a.mix(this.b, fab).mix(this.d.mix(this.c, fdc), f);
 };
 
-function PointSet(point)
+export function PointSet(point)
 {
   this.points = [point];
   this.x = point.x;
@@ -344,7 +344,7 @@ PointSet.prototype.getSpread = function()
 }
 
 
-function drawPixel(ctx, rgb, x, y)
+export function drawPixel(ctx, rgb, x, y)
 {
   try
   {
