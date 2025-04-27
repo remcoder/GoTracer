@@ -120,7 +120,7 @@ GoTracer.prototype.getSets = function(rect)
         p: rect.getPoint(x/18, y/18),
         x: h - h1 - Math.abs(l - l1) + 64,
         y: l,
-        coord: "[" + String.fromCharCode(y + 97) + String.fromCharCode(x + 97) + "]"
+        coord: "[" + String.fromCharCode(x + 97) + String.fromCharCode(y + 97) + "]"
       }));
     }
   }
