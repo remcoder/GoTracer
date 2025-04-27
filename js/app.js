@@ -1,4 +1,5 @@
-import { GoTracer, Point } from './gotracer.js';
+import { Point } from './point.js';
+import { GoTracer } from './gotracer.js';
 import { Preview } from './preview.js';
 
 let url = ''; // Initialize url as empty
@@ -28,25 +29,25 @@ function init() {
     });
 
     // Replace form onsubmit
-    $("imageUrlInput").form.addEventListener('submit', function(e) {
+    $("imageUrlInput")?.form.addEventListener('submit', function(e) {
         e.preventDefault();
         loadImageFromInput();
     });
 
     // Replace canvas onclick
-    $("preview").addEventListener('click', function(e) {
+    $("preview")?.addEventListener('click', function(e) {
         e.preventDefault();
         downloadSGF();
     });
 
     // Replace button onclick
-    $("preview").nextElementSibling.addEventListener('click', function(e) {
+    $("preview")?.nextElementSibling.addEventListener('click', function(e) {
         e.preventDefault();
         downloadSGF();
     });
 
     // Add example button listener
-    document.querySelector('.load-example').addEventListener('click', function(e) {
+    document.querySelector('.load-example')?.addEventListener('click', function(e) {
         e.preventDefault();
         loadExample();
     });
