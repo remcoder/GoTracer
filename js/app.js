@@ -42,6 +42,12 @@ function init() {
         downloadSGF();
     });
 
+    // Add example button listener
+    document.querySelector('.load-example').addEventListener('click', function(e) {
+        e.preventDefault();
+        loadExample();
+    });
+
     // Load initial image if URL parameter exists
     var initialUrl = getQueryParam('image');
     if (initialUrl) {
@@ -89,6 +95,13 @@ function loadImageFromInput() {
     } else {
         alert("Please enter an image URL.");
     }
+}
+
+// Function to load the example image
+function loadExample() {
+    url = "/images/examples/goban1.jpg";
+    $("imageUrlInput").value = url;
+    loadImage();
 }
 
 // Function to actually load the image
