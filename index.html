@@ -1,5 +1,4 @@
 <head>
-<meta name="verify-v1" content="yqTeVksWGzG6l+qNxgcBcOVmbLOkFq9nkusEGBbaz/E=" />
 <title>Go Tracer &ndash; scan the image of a Go board and convert it to an .sgf file</title>
 <link rel="icon" type="image/png" href="/images/favicon.png"/>
 <link href="css/gotracer.css" rel="stylesheet" />
@@ -14,17 +13,12 @@
     <input type="text" class="image-url" name="image" id="imageUrlInput" value="" title="enter the url of the image" />
     <button type="submit" class="load">load</button>
 
-    <div class="notes">
-      compatibility: Firefox 3+, Safari 4+, Chrome 2+, Opera 10+ (because of <a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html#pixel-manipulation">getImageData</a>)
-      |
-      <a href="mailto:info.gotracer@gmail.com">info.gotracer@gmail.com</a>
-    </div>
   </form>
 
   <table id="canvases" cellpadding="5" class="canvases" style="display: none;">
     <tr>
       <td rowspan="3">
-        <h2 class="step"><span class="number">2. </span>Position the 4 corners <span id="match"></span></h2> <!-- Match span kept for potential future use -->
+        <h2 class="step"><span class="number">2. </span>Position the 4 corners <span id="match"></span></h2>
         <canvas id="image" width="900" height="600"></canvas>
       </td>
       <td>
@@ -54,7 +48,7 @@
     </tr>
     <tr>
       <td style="vertical-align: bottom;">
-        <p class="version">v0.30-static &ndash; Apr 13 2025<p> <!-- Updated version -->
+        <p class="version">v0.30-static &ndash; Apr 13 2025<p>
       </td>
     </tr>
   </table>
