@@ -3,7 +3,7 @@ import { Line } from './line.js';
 import { Rect3D } from './rect3d.js';
 import { PointSet } from './pointset.js';
 
-export function GoTracer(img, canvas, debugCanvas, crosshair)
+export function GoTracer(img, canvas, debugCanvas)
 {
   this.img = img;
   
@@ -25,7 +25,11 @@ export function GoTracer(img, canvas, debugCanvas, crosshair)
     new Point(x2, y1)
   ];
 
-  this.crosshair = crosshair;
+  this.crosshair = new Image();
+  this.crosshair.src = "images/skitch2.png";
+  this.crosshair.onload = () => {
+    this.drawCrosshairs();
+  };
 }
 
 GoTracer.prototype.getNearestCorner = function(x, y) {

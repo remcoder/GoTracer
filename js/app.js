@@ -18,7 +18,6 @@ let url = ''; // Initialize url as empty
 let preview;
 let timer = null;
 const img = new Image();
-const crosshair = new Image();
 let goTracer = null; // Initialize later
 
 // Call init when script loads
@@ -89,7 +88,7 @@ img.onload = function() {
   canvases.style.display = "table";
   document.body.style.cursor = "default";
   // Initialize GoTracer only after image is loaded
-  goTracer = new GoTracer(img, canvas, colorPlot, crosshair);
+  goTracer = new GoTracer(img, canvas, colorPlot);
   setCorners(); // Set corners after goTracer is initialized
   // Add event listeners after goTracer is initialized
   canvas.addEventListener("mousedown", handleDown, false);
@@ -99,7 +98,7 @@ img.onload = function() {
   update(); // Initial update
 }
 
-crosshair.src = "images/skitch2.png";
+
 
 // Function to load image from input or query param
 function loadImageFromInput() {
