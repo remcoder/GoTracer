@@ -2,9 +2,19 @@ import { Point } from './point.js';
 import { GoTracer } from './gotracer.js';
 import { Preview } from './preview.js';
 
+// @ts-ignore
+const colorPlot = document.getElementById("colorPlot");
+// @ts-ignore
+const previewElement = document.getElementById("preview");
+// @ts-ignore
+const imageUrlInput = document.getElementById("imageUrlInput");
+// @ts-ignore
+const canvases = document.getElementById("canvases");
+// @ts-ignore
+const canvas= document.getElementById("image");
+
+
 let url = ''; // Initialize url as empty
-let canvas;
-let canvas2;
 let preview;
 let timer = null;
 const img = new Image();
@@ -16,9 +26,8 @@ init();
 
 // Initialize all event listeners
 function init() {
-  canvas = document.getElementsByTagName('canvas')[0];
-  canvas2 = $("colorPlot");
-  preview = new Preview($("preview"));
+  
+  preview = new Preview(previewElement);
 
     // Replace body onload
     document.addEventListener('DOMContentLoaded', function() {
@@ -29,19 +38,20 @@ function init() {
     });
 
     // Replace form onsubmit
-    $("imageUrlInput")?.form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        loadImageFromInput();
+    
+    imageUrlInput.form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      loadImageFromInput();
     });
 
     // Replace canvas onclick
-    $("preview")?.addEventListener('click', function(e) {
+    previewElement?.addEventListener('click', function(e) {
         e.preventDefault();
         downloadSGF();
     });
 
     // Replace button onclick
-    $("preview")?.nextElementSibling.addEventListener('click', function(e) {
+    previewElement?.nextElementSibling.addEventListener('click', function(e) {
         e.preventDefault();
         downloadSGF();
     });
@@ -55,7 +65,7 @@ function init() {
     // Load initial image if URL parameter exists
     var initialUrl = getQueryParam('image');
     if (initialUrl) {
-        $("imageUrlInput").value = initialUrl;
+        imageUrlInput.value = initialUrl;
         url = initialUrl;
         loadImage();
     }
@@ -72,14 +82,14 @@ function getQueryParam(name) {
 img.onerror = function() {
   alert("Cannot load image: " + url + "\n\nPlease ensure the URL is correct and the image server allows cross-origin requests (CORS).");
   document.body.style.cursor = "default";
-  $("canvases").style.display = "none";
+  canvases.style.display = "none";
 };
 
 img.onload = function() {
-  $("canvases").style.display = "table";
+  canvases.style.display = "table";
   document.body.style.cursor = "default";
   // Initialize GoTracer only after image is loaded
-  goTracer = new GoTracer(img, canvas, canvas2, crosshair);
+  goTracer = new GoTracer(img, canvas, colorPlot, crosshair);
   setCorners(); // Set corners after goTracer is initialized
   // Add event listeners after goTracer is initialized
   canvas.addEventListener("mousedown", handleDown, false);
@@ -93,7 +103,7 @@ crosshair.src = "images/skitch2.png";
 
 // Function to load image from input or query param
 function loadImageFromInput() {
-    url = $("imageUrlInput").value;
+    url = imageUrlInput.value;
     if (url) {
         loadImage();
     } else {
@@ -104,7 +114,7 @@ function loadImageFromInput() {
 // Function to load the example image
 function loadExample() {
     url = "/images/examples/goban1.jpg";
-    $("imageUrlInput").value = url;
+    imageUrlInput.value = url;
     loadImage();
 }
 
@@ -112,7 +122,7 @@ function loadExample() {
 function loadImage() {
     if (!url) return;
     document.body.style.cursor = "wait";
-    $("canvases").style.display = "none"; // Hide while loading new image
+    canvases.style.display = "none"; // Hide while loading new image
     // Try direct loading (might fail due to CORS)
     img.crossOrigin = "Anonymous"; // Attempt to request CORS permissions
     img.src = url;
@@ -121,7 +131,7 @@ function loadImage() {
 // Load image on page load if URL parameter is present
 var initialUrl = getQueryParam('image');
 if (initialUrl) {
-    $("imageUrlInput").value = initialUrl;
+    imageUrlInput.value = initialUrl;
     url = initialUrl;
     loadImage();
 }
@@ -252,14 +262,4 @@ function setCorners()
       ];
       console.log("Using default corners.");
   }
-}
-function displayMatch(match)
-{
-  // Kept for potential future client-side match calculation display
-  // $("match").innerHTML = "(match " + match + "%)";
-}
-
-function $(id)
-{
-    return document.getElementById(id);
 }
