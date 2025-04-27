@@ -12,5 +12,12 @@ export default defineConfig({
         main: path.resolve(__dirname, 'index.html')
       }
     }
+  },
+  publicDir: 'public',
+  base: './',
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './js')
+    }
   }
 })
