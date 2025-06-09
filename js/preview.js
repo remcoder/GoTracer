@@ -6,10 +6,11 @@ export class Preview {
     this.backgroundImage = new Image();
     this.backgroundImage.src = '/images/blank_board.png';
   }
-  update(goTracer) {
+  update(stones) {
+    // console.log('Preview update called', stones);
     this.clear();
-    this.draw(goTracer.blackSet.points, 'black');
-    this.draw(goTracer.whiteSet.points, 'white');
+    this.draw(stones.blackSet.points, 'black');
+    this.draw(stones.whiteSet.points, 'white');
   }
   clear() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);

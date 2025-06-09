@@ -218,26 +218,26 @@ class App {
 
     // Validate hash coordinates
     if (coords.length == 8 && coords.every(c => !isNaN(parseFloat(c)))) {
-      coords = coords.map(function(c) { return parseFloat(c); }); // Use parseFloat
+      coords = coords.map(function(c) { return parseFloat(c); });
 
-      this.goTracer.corners = [
+      const newCornersFromHash = [
         new Point(coords[0], coords[1]),
         new Point(coords[2], coords[3]),
         new Point(coords[4], coords[5]),
         new Point(coords[6], coords[7])
       ];
-    } else { // No change needed here, the error was likely cascading from line 244
-      // Set default corners if hash is invalid or not present
-      // These defaults might need adjustment based on typical image sizes
+      this.goTracer.setCorners(newCornersFromHash);
+    } else {
       const w = this.canvas.width;
       const h = this.canvas.height;
-      this.goTracer.corners = [
-        new Point(w * 0.1, h * 0.1),
-        new Point(w * 0.9, h * 0.1),
-        new Point(w * 0.9, h * 0.9),
-        new Point(w * 0.1, h * 0.9)
+      const defaultCorners = [
+        new Point(w * 0.1, h * 0.1), // Top-Left
+        new Point(w * 0.1, h * 0.9), // Bottom-Left
+        new Point(w * 0.9, h * 0.9), // Bottom-Right
+        new Point(w * 0.9, h * 0.1)  // Top-Right
       ];
-      console.log('Using default corners.');
+      this.goTracer.setCorners(defaultCorners);
+      console.log('Using default corners via setCorners.');
     }
   };
 }

@@ -85,7 +85,7 @@ button:active
 #canvases
 {
   margin:auto;
-  display: none;
+  /* display: none; */
   background-color: #d1d5dA;
   margin-bottom: 20px;
   border: 1px solid #aaaaaa;

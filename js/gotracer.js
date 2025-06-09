@@ -4,14 +4,24 @@ import { Rect3D } from './rect3d.js';
 import { PointSet } from './pointset.js';
 
 export class GoTracer {
-  constructor(img, canvas, debugCanvas) {
-    this.img = img;
+  constructor(imgUrl, canvas, debugCanvas) {
+    this.img = new Image();
+    this.img.src = imgUrl;
+    this.img.onload = () => {
+      this.startScan();
+
+      // emit an event to notify that the image is loaded
+      this.onScanCallback && this.onScanCallback({
+        blackSet: this.blackSet,
+        whiteSet: this.whiteSet,
+      });
+    };
 
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
 
     this.debugCanvas = debugCanvas;
-    this.debugCtx = debugCanvas.getContext('2d');
+    this.debugCtx = debugCanvas?.getContext('2d');
 
     const x1 = 0.1 * canvas.width;
     const y1 = 0.1 * canvas.height;
@@ -25,11 +35,35 @@ export class GoTracer {
       new Point(x2, y1)
     ];
 
+
     this.crosshair = new Image();
     this.crosshair.src = 'images/skitch2.png';
     this.crosshair.onload = () => {
-      this.drawCrosshairs();
+      this.drawCrosshairs(); // initial draw
     };
+  }
+
+  onScan(callback) {
+    this.onScanCallback = () => {
+
+      console.log('GoTracer scan completed.');
+        callback({
+          blackSet: this.blackSet,
+          whiteSet: this.whiteSet,
+          boardSet: this.boardSet,
+        });
+      
+    };
+  }
+
+  setCorners(newCorners) {
+    if (Array.isArray(newCorners) && newCorners.length === 4 && newCorners.every(p => p instanceof Point)) {
+      this.corners = newCorners;
+      // You can add logic here to trigger redraws or other updates if needed
+      console.log('GoTracer corners updated via setCorners.');
+    } else {
+      console.error('Invalid corners provided to GoTracer.setCorners Expected 4 Point instances.', newCorners);
+    }
   }
   getNearestCorner(x, y) {
     let closest = null;
@@ -54,6 +88,8 @@ export class GoTracer {
     this.partition(sets, 3);
     this.assignSets(sets);
     this.drawCrosshairs();
+
+    this.onScanCallback && this.onScanCallback();
   }
   drawImage() {
     const aspectRatio = this.img.width / this.img.height;
@@ -117,7 +153,7 @@ export class GoTracer {
           p: rect.getPoint(x / 18, y / 18),
           x: h - h2 - Math.abs(l - l2) + 64,
           y: l,
-          coord: '[' + String.fromCharCode(x + 97) + String.fromCharCode(y + 97) + ']'
+          coord: '[' + String.fromCharCode(y + 97) + String.fromCharCode(x   + 97) + ']'
         }));
       }
     }
@@ -179,12 +215,14 @@ export class GoTracer {
     this.whiteSet.draw(this.ctx, 'black');
     this.boardSet.draw(this.ctx, 'brown');
 
-    this.debugCtx.fillStyle = 'white';
-    this.debugCtx.fillRect(0, 0, this.debugCanvas.width, this.debugCanvas.height);
+    // if( this.debugCtx) {
+    //   this.debugCtx.fillStyle = 'white';
+    //   this.debugCtx?.fillRect(0, 0, this.debugCanvas.width, this.debugCanvas.height);
 
-    this.blackSet.drawDebug(this.debugCtx, 'rgb(0,0,0)');
-    this.whiteSet.drawDebug(this.debugCtx, 'rgb(160,160,160)');
-    this.boardSet.drawDebug(this.debugCtx, 'rgb(255,160,64)');
+    //   this.blackSet.drawDebug(this.debugCtx, 'rgb(0,0,0)');
+    //   this.whiteSet.drawDebug(this.debugCtx, 'rgb(160,160,160)');
+    //     this.boardSet.drawDebug(this.debugCtx, 'rgb(255,160,64)');
+    // }
   }
   getMatch() {
     return 1 / 3 * (this.blackSet.getSpread() + this.whiteSet.getSpread() + this.boardSet.getSpread());
@@ -195,6 +233,51 @@ export class GoTracer {
 
     return '(;AB' + blackCoords.join('') + 'AW' + whiteCoords.join('') + ')';
   }
+
+
+  getCoords = (e) => {
+    let x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft; // Added documentElement scroll
+    let y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop; // Added documentElement scroll
+
+    for (let el = this.canvas; el; el = el.offsetParent) {
+      x -= el.offsetLeft;
+      y -= el.offsetTop;
+    }
+
+    // Adjust for canvas scaling if CSS width/height differs from canvas width/height
+    const rect = this.canvas.getBoundingClientRect();
+    x = (x / rect.width) * this.canvas.width;
+    y = (y / rect.height) * this.canvas.height;
+
+    return {
+      x: x,
+      y: y
+    };
+  };
+
+  handleDown = (e) => {
+    const p = this.getCoords(e);
+    this.currentCorner = this.getNearestCorner(p.x, p.y);
+    this.handleMove(e);
+  };
+
+  handleUp = () => {
+    this.currentCorner = null;
+  };
+
+  handleMove = (e) => {
+    if (!this.currentCorner )
+      return;
+
+    const p = this.getCoords(e);
+    this.currentCorner.x = p.x;
+    this.currentCorner.y = p.y;
+
+    window.clearTimeout(this.timer);
+    this.timer = window.setTimeout(() => this.startScan(), 20);
+  };
+
+
 }
 
 

@@ -2,17 +2,18 @@
 <title>Go Tracer &ndash; scan the image of a Go board and convert it to an .sgf file</title>
 <link rel="icon" type="image/png" href="/images/favicon.png"/>
 <link href="css/gotracer.css" rel="stylesheet" />
-<script type="module" src="js/app.js"></script>
+<script type="module" src="/main.js"></script>
 
 </head>
 <body>
-  <form>
-    <h2 class="step"><span class="number">1. </span>Enter the URL of an image of a go board</h2> <!-- Removed example link --><br/>
+  <div id="app"></div>
+  <!-- <form>
+    <h2 class="step"><span class="number">1. </span>Enter the URL of an image of a go board</h2><br/>
     <input type="text" class="image-url" name="image" id="imageUrlInput" value="" title="enter the url of the image" />
     <button type="submit" class="load">load</button>
     <button type="button" class="load-example">load example</button>
 
-  </form>
+  </form> -->
 
   <table id="canvases" cellpadding="5" class="canvases" style="display: none;">
     <tr>
@@ -52,7 +53,7 @@
     </tr>
   </table>
   
-    <img width="400" src="http://localhost:3000/images/blank_board.png" />
+    <!-- <img width="400" src="http://localhost:3000/images/blank_board.png" />
     <img width="400" src="http://localhost:3000/images/examples/goban1.jpg " />
     <img width="400" src="http://localhost:3000/images/examples/goban2.jpg " />
     <img width="400" src="http://localhost:3000/images/examples/goban3.jpg " />
@@ -66,5 +67,5 @@
     <img width="400" src="http://localhost:3000/images/examples/goban11.jpg " />
     <img width="400" src="http://localhost:3000/images/examples/goban12.jpg " />
     <img width="400" src="http://localhost:3000/images/examples/goban13.jpg " />  
-    <img width="400" src="http://localhost:3000/images/examples/goban14.jpg " />
+    <img width="400" src="http://localhost:3000/images/examples/goban14.jpg " /> -->
 </body>
