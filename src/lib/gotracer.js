@@ -2,9 +2,11 @@ import { Point } from './point.js';
 import { Line } from './line.js';
 import { Rect3D } from './rect3d.js';
 import { PointSet } from './pointset.js';
+import { DEFAULT_BOARD_SIZE, validateBoardSize } from './board-size.js';
 
 export class GoTracer {
-  constructor(imgUrl, canvas, debugCanvas) {
+  constructor(imgUrl, canvas, debugCanvas, boardSize = DEFAULT_BOARD_SIZE) {
+    this.boardSize = validateBoardSize(boardSize);
     this.img = new Image();
     this.img.src = imgUrl;
     this.img.onload = () => {
@@ -117,12 +119,16 @@ export class GoTracer {
   getSets(rect) {
     const sets = [];
     const measurements = 7;
-    for (let x = 0; x < 19; x++) {
-      for (let y = 0; y < 19; y++) {
+    const maxIndex = this.boardSize - 1;
+    for (let x = 0; x < this.boardSize; x++) {
+      for (let y = 0; y < this.boardSize; y++) {
         let l = 0, h = 0, count = 0;
         for (let t = 0; t < measurements; t++) {
           const phi = t / measurements * 2 * Math.PI;
-          const c = rect.getPoint(x / 18 + 0.012 * Math.cos(phi), y / 18 + 0.012 * Math.sin(phi)).getColor(this.ctx);
+          const c = rect.getPoint(
+            x / maxIndex + 0.012 * Math.cos(phi),
+            y / maxIndex + 0.012 * Math.sin(phi)
+          ).getColor(this.ctx);
           if (!isNaN(c.l) && !isNaN(c.h)) {
             l += c.l; h += c.h;
             count++;
@@ -135,8 +141,8 @@ export class GoTracer {
           const phi2 = (t2 + 0.5) / 2 * Math.PI;
           const x1 = x + 0.7 * Math.cos(phi2);
           const y1 = y + 0.7 * Math.sin(phi2);
-          if (x1 >= 0 && y1 >= 0 && x1 <= 18 && y1 <= 18) {
-            const c2 = rect.getPoint(x1 / 18, y1 / 18).getColor(this.ctx);
+          if (x1 >= 0 && y1 >= 0 && x1 <= maxIndex && y1 <= maxIndex) {
+            const c2 = rect.getPoint(x1 / maxIndex, y1 / maxIndex).getColor(this.ctx);
             if (!isNaN(c2.l) && !isNaN(c2.h)) {
               l2 += c2.l; h2 += c2.h;
               count2++;
@@ -146,7 +152,7 @@ export class GoTracer {
         l2 /= count2; h2 /= count2;
 
         sets.push(new PointSet({
-          p: rect.getPoint(x / 18, y / 18),
+          p: rect.getPoint(x / maxIndex, y / maxIndex),
           x: h - h2 - Math.abs(l - l2) + 64,
           y: l,
           coord: '[' + String.fromCharCode(y + 97) + String.fromCharCode(x   + 97) + ']'
@@ -230,7 +236,7 @@ export class GoTracer {
     const blackCoords = this.blackSet.points.map(function (pt) { return pt.coord; });
     const whiteCoords = this.whiteSet.points.map(function (pt) { return pt.coord; });
 
-    return '(;AB' + blackCoords.join('') + 'AW' + whiteCoords.join('') + ')';
+    return '(;SZ[' + this.boardSize + ']AB' + blackCoords.join('') + 'AW' + whiteCoords.join('') + ')';
   }
 
 

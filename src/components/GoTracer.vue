@@ -1,6 +1,7 @@
 <script setup>
 import Preview from './Preview.vue';
 import { GoTracer } from '../lib/gotracer.js';
+import { DEFAULT_BOARD_SIZE, SUPPORTED_BOARD_SIZES } from '../lib/board-size.js';
 import ColorPlot from './ColorPlot.vue';
 import { onMounted, ref } from 'vue';
 let goTracer;
@@ -9,6 +10,11 @@ const props = defineProps({
   imageUrl: {
     type: String,
     required: true
+  },
+  boardSize: {
+    type: Number,
+    default: DEFAULT_BOARD_SIZE,
+    validator: (value) => SUPPORTED_BOARD_SIZES.includes(value)
   }
 });
 
@@ -31,7 +37,7 @@ onMounted(() => {
   const image = document.getElementById('image');
   const colorPlot = document.getElementById('colorPlot');
 
-  goTracer = new GoTracer(props.imageUrl, image);
+  goTracer = new GoTracer(props.imageUrl, image, undefined, props.boardSize);
   goTracer.onScan((data) => {
     stones.value.blackSet = data.blackSet;
     stones.value.whiteSet = data.whiteSet;
@@ -90,7 +96,7 @@ const handleUp = (event) => {
       <td>
 
         <h2 class="step"><span class="number">3. </span>Download</h2>
-        <Preview v-if="stones" :stones="stones" />
+        <Preview v-if="stones" :stones="stones" :board-size="boardSize" />
 
         <button @click="downloadSGF" class="download">download</button>
         <button @click="emit('back')" class="change-image">change image</button>
@@ -103,7 +109,7 @@ const handleUp = (event) => {
           <h3 class="plotHeader">sample points</h3>
           <p class="plotExplanation">
             <ColorPlot :stones="stones"/>
-            This plot shows each of the 361 sample points of the superimposed grid in color space. The x-axis represents intensity while the y-axis
+            This plot shows each of the {{ boardSize * boardSize }} sample points of the superimposed grid in color space. The x-axis represents intensity while the y-axis
             represents saturation.
             The darkest points, to the left, are interpreted as black stones whereas the lightest points, to the right, are taken to be  white stones.
             The third group of points at the bottom, which have the most color, must be vacant points.
