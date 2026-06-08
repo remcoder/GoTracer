@@ -1,13 +1,14 @@
 {
   "name": "gotracer",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "preview:firebase": "pnpm run build && firebase emulators:start --only hosting --project demo-gotracer",
     "firebase:preview": "pnpm run preview:firebase",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --test tests/*.test.mjs",
     "lint": "eslint . --ext .js,.ts,.vue",
     "lint:fix": "eslint . --ext .js,.ts,.vue --fix",
     "typecheck": "vue-tsc --noEmit"

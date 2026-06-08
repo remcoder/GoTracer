@@ -1,12 +1,22 @@
 <template>
-  <ExampleImage v-if="!imageUrl" @select="imageUrl = $event" />
-  <GoTracer v-else :imageUrl="imageUrl" @back="imageUrl = ''" />
+  <ExampleImage v-if="!selection" @select="selection = $event" />
+  <GoTracer
+    v-else
+    :image-url="selection.imageUrl"
+    :board-size="selection.boardSize"
+    @back="selection = null"
+  />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import GoTracer from './components/GoTracer.vue';
 import ExampleImage from './components/ExampleImage.vue';
 
-const imageUrl = ref('');
+interface ImageSelection {
+  imageUrl: string;
+  boardSize: number;
+}
+
+const selection = ref<ImageSelection | null>(null);
 </script>

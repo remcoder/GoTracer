@@ -1,14 +1,15 @@
 # Go Tracer
 
 Go Tracer is a static web application that detects stones in photographs of
-19x19 Go boards and exports the detected position as an SGF file.
+9x9, 13x13, and 19x19 Go boards and exports the detected position as an SGF
+file.
 
 All image processing runs in the browser. The application has no backend or
 persistent data store.
 
 ## Features
 
-- Select a bundled example image
+- Select a bundled 9x9, 13x13, or 19x19 example image
 - Position four corner markers over the board
 - Automatically classify intersections as black stones, white stones, or empty
 - Preview the detected board position
@@ -17,7 +18,8 @@ persistent data store.
 
 ## Limitations
 
-- The scanner always samples a 19x19 grid.
+- Board size is selected by the bundled example and is limited to 9x9, 13x13,
+  and 19x19.
 - The current interface only supports the bundled example images; it does not
   provide image upload or URL input.
 - Detection quality depends on accurate corner placement, lighting, and a clear
@@ -50,23 +52,26 @@ The application is served at <http://localhost:3000>.
 
 ## Usage
 
-1. Select one of the bundled example images.
+1. Select one of the bundled example images. Its board size is passed through
+   to scanning, preview, and SGF generation.
 2. Drag the four corner markers onto the outer intersections of the Go board.
 3. Review the detected position and color plot.
 4. Select **download** to save the position as `game.sgf`.
 
-The SGF contains setup properties (`AB` and `AW`) for the detected stones; it
-does not reconstruct move order.
+The SGF contains the board size (`SZ`) and setup properties (`AB` and `AW`) for
+the detected stones; it does not reconstruct move order.
 
 ## Checks
 
 ```sh
+pnpm run test
 pnpm run lint
 pnpm run typecheck
 pnpm run build
 ```
 
-There is currently no automated test suite.
+The focused test suite covers board-size validation, scanner dimensions and
+normalization, SGF board size output, and preview geometry.
 
 ## Firebase Preview
 
