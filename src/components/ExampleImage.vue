@@ -7,8 +7,8 @@
         :key="image.url"
         :src="image.url"
         @click="selectImage(image)"
-        :alt="`${image.label} Go board example`"
-        :title="image.label"
+        :alt="`${image.boardSize}x${image.boardSize} Go board example`"
+        :title="`${image.boardSize}x${image.boardSize}`"
         class="thumbnail"
       />
     </div>
@@ -19,25 +19,25 @@
 const emit = defineEmits(['select']);
 
 const exampleImages = [
-  { url: '/images/examples/goban1.jpg', label: '19x19 #1', boardSize: 19 },
-  { url: '/images/examples/goban2.jpg', label: '19x19 #2', boardSize: 19 },
-  { url: '/images/examples/goban3.jpg', label: '19x19 #3', boardSize: 19 },
-  { url: '/images/examples/goban4.jpg', label: '19x19 #4', boardSize: 19 },
-  { url: '/images/examples/goban5.jpg', label: '19x19 #5', boardSize: 19 },
-  { url: '/images/examples/goban6.jpg', label: '19x19 #6', boardSize: 19 },
-  { url: '/images/examples/goban7.jpg', label: '19x19 #7', boardSize: 19 },
-  { url: '/images/examples/goban8.jpg', label: '19x19 #8', boardSize: 19 },
-  { url: '/images/examples/goban9.jpg', label: '19x19 #9', boardSize: 19 },
-  { url: '/images/examples/goban10.jpg', label: '19x19 #10', boardSize: 19 },
-  { url: '/images/examples/goban11.jpg', label: '19x19 #11', boardSize: 19 },
-  { url: '/images/examples/goban12.jpg', label: '19x19 #12', boardSize: 19 },
-  { url: '/images/examples/goban13.jpg', label: '19x19 #13', boardSize: 19 },
-  { url: '/images/examples/goban14.png', label: '19x19 #14', boardSize: 19 },
-  { url: '/images/examples/13x13/5.jpeg', label: '13x13', boardSize: 13 },
-  { url: '/images/examples/9x9/1.jpeg', label: '9x9 #1', boardSize: 9 },
-  { url: '/images/examples/9x9/2.jpeg', label: '9x9 #2', boardSize: 9 },
-  { url: '/images/examples/9x9/3.jpeg', label: '9x9 #3', boardSize: 9 },
-  { url: '/images/examples/9x9/4.jpeg', label: '9x9 #4', boardSize: 9 },
+  { url: '/images/examples/goban1.jpg', boardSize: 19 },
+  { url: '/images/examples/goban2.jpg', boardSize: 19 },
+  { url: '/images/examples/goban3.jpg', boardSize: 19 },
+  { url: '/images/examples/goban4.jpg', boardSize: 19 },
+  { url: '/images/examples/goban5.jpg', boardSize: 19 },
+  { url: '/images/examples/goban6.jpg', boardSize: 19 },
+  { url: '/images/examples/goban7.jpg', boardSize: 19 },
+  { url: '/images/examples/goban8.jpg', boardSize: 19 },
+  { url: '/images/examples/goban9.jpg', boardSize: 19 },
+  { url: '/images/examples/goban10.jpg', boardSize: 19 },
+  { url: '/images/examples/goban11.jpg', boardSize: 19 },
+  { url: '/images/examples/goban12.jpg', boardSize: 19 },
+  { url: '/images/examples/goban13.jpg', boardSize: 19 },
+  { url: '/images/examples/goban14.png', boardSize: 19 },
+  { url: '/images/examples/13x13/5.jpeg', boardSize: 13 },
+  { url: '/images/examples/9x9/1.jpeg', boardSize: 9 },
+  { url: '/images/examples/9x9/2.jpeg', boardSize: 9 },
+  { url: '/images/examples/9x9/3.jpeg', boardSize: 9 },
+  { url: '/images/examples/9x9/4.jpeg', boardSize: 9 },
 ];
 
 function selectImage(image) {

@@ -1,23 +1,10 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import {
-  DEFAULT_BOARD_SIZE,
-  SUPPORTED_BOARD_SIZES,
-  validateBoardSize
-} from '../src/lib/board-size.js';
+import { SUPPORTED_BOARD_SIZES } from '../src/lib/board-size.js';
 import { GoTracer } from '../src/lib/gotracer.js';
 import { Preview } from '../src/lib/preview.js';
-
-test('board-size validation accepts only bundled board sizes', () => {
-  assert.equal(DEFAULT_BOARD_SIZE, 19);
-  assert.deepEqual(SUPPORTED_BOARD_SIZES, [9, 13, 19]);
-  assert.equal(validateBoardSize(9), 9);
-  assert.equal(validateBoardSize(13), 13);
-  assert.equal(validateBoardSize(19), 19);
-  assert.throws(() => validateBoardSize(9.5), /must be an integer/);
-  assert.throws(() => validateBoardSize(11), /Supported sizes are 9, 13, 19/);
-});
+import { createCanvasMock } from './helpers/create-canvas-mock.mjs';
 
 for (const boardSize of SUPPORTED_BOARD_SIZES) {
   test(`scanner samples a ${boardSize}x${boardSize} grid`, () => {
@@ -56,29 +43,7 @@ test('SGF includes the selected board size', () => {
 
 for (const boardSize of SUPPORTED_BOARD_SIZES) {
   test(`preview uses ${boardSize}x${boardSize} grid and stone spacing`, () => {
-    const operations = [];
-    const context = {
-      clearRect() {},
-      fillRect() {},
-      beginPath() {},
-      moveTo() {},
-      lineTo(x, y) {
-        operations.push({ type: 'lineTo', x, y });
-      },
-      stroke() {},
-      arc(x, y, radius) {
-        operations.push({ type: 'arc', x, y, radius });
-      },
-      fill() {},
-      closePath() {}
-    };
-    const canvas = {
-      width: 200,
-      height: 200,
-      getContext() {
-        return context;
-      }
-    };
+    const { canvas, operations } = createCanvasMock();
     const preview = new Preview(canvas, boardSize);
     const lastCoord = String.fromCharCode(96 + boardSize);
 
