@@ -154,6 +154,11 @@ button.download
 {
   font-size: 120%;  
 }
+button.change-image
+{
+  font-size: 120%;
+  margin-left: 8px;
+}
 /*.download
 {
   font-size:120%;

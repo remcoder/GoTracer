@@ -8,9 +8,11 @@ let goTracer;
 const props = defineProps({
   imageUrl: {
     type: String,
-    default: '/images/examples/goban14.png'
+    required: true
   }
 });
+
+const emit = defineEmits(['back']);
 
 
 const stones = ref ({
@@ -91,6 +93,7 @@ const handleUp = (event) => {
         <Preview v-if="stones" :stones="stones" />
 
         <button @click="downloadSGF" class="download">download</button>
+        <button @click="emit('back')" class="change-image">change image</button>
 
       </td>
     </tr>
