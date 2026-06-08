@@ -5,6 +5,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "preview:firebase": "pnpm run build && firebase emulators:start --only hosting --project demo-gotracer",
+    "firebase:preview": "pnpm run preview:firebase",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint . --ext .js,.ts",
     "lint:fix": "eslint . --ext .js,.ts --fix",
@@ -20,6 +22,7 @@
     "eslint": "^8.56.0",
     "typescript": "^5.8.3",
     "vite": "^6.2.6",
+    "firebase-tools": "^14.19.0",
     "vite-plugin-checker": "^0.9.1"
   },
   "dependencies": {
