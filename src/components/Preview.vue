@@ -44,6 +44,7 @@ watch([() => props.stones, () => props.boardSize], ([newStones, newBoardSize]) =
 
 <style scoped>
 .preview {
-  border: 1px solid #ccc;
+  display: grid;
+  place-items: center;
 }
 </style>

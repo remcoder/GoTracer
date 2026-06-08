@@ -1,21 +1,44 @@
 <template>
-  <div class="example-image">
-    <h3>Select an Example Image</h3>
-    <div class="image-grid">
-      <img
-        v-for="image in exampleImages"
-        :key="image.url"
-        :src="image.url"
-        @click="selectImage(image)"
-        :alt="`${image.boardSize}x${image.boardSize} Go board example`"
-        :title="`${image.boardSize}x${image.boardSize}`"
-        class="thumbnail"
-      />
+  <section class="selection-page" aria-labelledby="selection-title">
+    <div class="page-intro">
+      <span class="eyebrow">Step 1 of 3</span>
+      <h1 id="selection-title">Choose a board photo</h1>
+      <p>Select an example to trace. You will position the four board corners on the next screen.</p>
     </div>
-  </div>
+
+    <div
+      v-for="group in imageGroups"
+      :key="group.boardSize"
+      class="image-group"
+    >
+      <div class="group-heading">
+        <h2>{{ group.boardSize }} × {{ group.boardSize }} boards</h2>
+        <span>{{ group.images.length }} {{ group.images.length === 1 ? 'example' : 'examples' }}</span>
+      </div>
+      <div class="image-grid">
+        <button
+          v-for="(image, index) in group.images"
+          :key="image.url"
+          type="button"
+          class="image-card"
+          :aria-label="`Select ${group.boardSize} by ${group.boardSize} board example ${index + 1}`"
+          @click="selectImage(image)"
+        >
+          <img
+            :src="image.url"
+            :alt="`${image.boardSize}x${image.boardSize} Go board example ${index + 1}`"
+            class="thumbnail"
+          />
+          <span class="image-card-label">Example {{ index + 1 }}</span>
+        </button>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
 const emit = defineEmits(['select']);
 
 const exampleImages = [
@@ -40,6 +63,11 @@ const exampleImages = [
   { url: '/images/examples/9x9/4.jpeg', boardSize: 9 },
 ];
 
+const imageGroups = computed(() => [19, 13, 9].map((boardSize) => ({
+  boardSize,
+  images: exampleImages.filter((image) => image.boardSize === boardSize)
+})));
+
 function selectImage(image) {
   emit('select', {
     imageUrl: image.url,
@@ -47,35 +75,3 @@ function selectImage(image) {
   });
 }
 </script>
-
-<style scoped>
-.example-image {
-  margin: 1rem;
-  padding: 1rem;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-}
-
-.image-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 10px;
-  margin-top: 15px;
-}
-
-.thumbnail {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out, border-color 0.2s ease-in-out;
-}
-
-.thumbnail:hover {
-  transform: scale(1.05);
-  border-color: #007bff;
-}
-</style>
