@@ -85,7 +85,7 @@ button:active
 #canvases
 {
   margin:auto;
-  display: none;
+  /* display: none; */
   background-color: #d1d5dA;
   margin-bottom: 20px;
   border: 1px solid #aaaaaa;
@@ -153,6 +153,11 @@ a
 button.download
 {
   font-size: 120%;  
+}
+button.change-image
+{
+  font-size: 120%;
+  margin-left: 8px;
 }
 /*.download
 {
