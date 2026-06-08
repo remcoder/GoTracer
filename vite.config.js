@@ -9,7 +9,7 @@ export default defineConfig({
     checker({
       typescript: true,
       eslint: {
-        lintCommand: 'eslint "./js/**/*.js"'
+        lintCommand: 'eslint "./src/**/*.js"'
       }
     })
   ],
@@ -28,7 +28,7 @@ export default defineConfig({
   base: './',
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './js')
+      '@': path.resolve(__dirname, './src')
     }
   }
 });

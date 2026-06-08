@@ -7,7 +7,7 @@
 
 <script setup>
 import { ref, unref, watch, onMounted } from 'vue';
-import { Preview } from './js/preview.js';
+import { Preview } from '../lib/preview.js';
 
 
 const props = defineProps({

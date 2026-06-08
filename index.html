@@ -1,71 +1,13 @@
-<head>
-<title>Go Tracer &ndash; scan the image of a Go board and convert it to an .sgf file</title>
-<link rel="icon" type="image/png" href="/images/favicon.png"/>
-<link href="css/gotracer.css" rel="stylesheet" />
-<script type="module" src="/main.js"></script>
-
-</head>
-<body>
-  <div id="app"></div>
-  <!-- <form>
-    <h2 class="step"><span class="number">1. </span>Enter the URL of an image of a go board</h2><br/>
-    <input type="text" class="image-url" name="image" id="imageUrlInput" value="" title="enter the url of the image" />
-    <button type="submit" class="load">load</button>
-    <button type="button" class="load-example">load example</button>
-
-  </form> -->
-
-  <table id="canvases" cellpadding="5" class="canvases" style="display: none;">
-    <tr>
-      <td rowspan="3">
-        <h2 class="step"><span class="number">2. </span>Position the 4 corners <span id="match"></span></h2>
-        <canvas id="image" width="900" height="600"></canvas>
-      </td>
-      <td>
-        <h2 class="step"><span class="number">3. </span>Download</h2>
-        <div id="preview-background"></div>
-        <canvas id="preview" width="200" height="200"></canvas>
-
-        <button class="download">download</button>
-      </td>
-    </tr>
-    <tr>
-      <td>
-
-        <div class="plotContainer">
-        <h3 class="plotHeader">sample points</h3>
-          <p class="plotExplanation">
-            <canvas id="colorPlot" width="128" height="256"></canvas>
-            This plot shows each of the 361 sample points of the superimposed grid in color space. The x-axis represents intensity while the y-axis
-            represents saturation.
-            The darkest points, to the left, are interpreted as black stones whereas the lightest points, to the right, are taken to be  white stones.
-            The third group of points at the bottom, which have the most color, must be vacant points.
-            If each group is nicely separated from the other groups, the trace will contain no errors.
-          </p>
-
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: bottom;">
-        <p class="version">v0.30-static &ndash; Apr 13 2025<p>
-      </td>
-    </tr>
-  </table>
-  
-    <!-- <img width="400" src="http://localhost:3000/images/blank_board.png" />
-    <img width="400" src="http://localhost:3000/images/examples/goban1.jpg " />
-    <img width="400" src="http://localhost:3000/images/examples/goban2.jpg " />
-    <img width="400" src="http://localhost:3000/images/examples/goban3.jpg " />
-    <img width="400" src="http://localhost:3000/images/examples/goban4.jpg " />
-    <img width="400" src="http://localhost:3000/images/examples/goban5.jpg " />
-    <img width="400" src="http://localhost:3000/images/examples/goban6.jpg " />
-    <img width="400" src="http://localhost:3000/images/examples/goban7.jpg " />
-    <img width="400" src="http://localhost:3000/images/examples/goban8.jpg " />
-    <img width="400" src="http://localhost:3000/images/examples/goban9.jpg " />
-    <img width="400" src="http://localhost:3000/images/examples/goban10.jpg " />
-    <img width="400" src="http://localhost:3000/images/examples/goban11.jpg " />
-    <img width="400" src="http://localhost:3000/images/examples/goban12.jpg " />
-    <img width="400" src="http://localhost:3000/images/examples/goban13.jpg " />  
-    <img width="400" src="http://localhost:3000/images/examples/goban14.jpg " /> -->
-</body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Go Tracer - scan a Go board image and convert it to SGF</title>
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>

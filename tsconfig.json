@@ -17,9 +17,10 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "baseUrl": ".",
     "paths": {
-      "js/*": ["js/*"]
+      "@/*": ["src/*"],
+      "lib/*": ["src/lib/*"]
     }
   },
-  "include": ["js/**/*.js"],
+  "include": ["src/**/*.js", "src/**/*.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

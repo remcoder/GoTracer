@@ -32,10 +32,10 @@ A web application that scans images of Go boards and converts them to SGF (Smart
 - `main.py`: Main request handler and application logic
 - `models/trace.py`: Data model for storing board traces
 - `templates/gotracer.html`: Main web interface
-- `js/gotracer.js`: Core board scanning/tracing logic
-- `js/preview.js`: Board preview visualization
-- `css/gotracer.css`: Stylesheets
-- `images/`: UI and sample images
+- `src/components/`: Vue interface components
+- `src/lib/`: Core board scanning and visualization logic
+- `src/styles/`: Application stylesheets
+- `public/images/`: UI and sample images
 
 ## Version
 

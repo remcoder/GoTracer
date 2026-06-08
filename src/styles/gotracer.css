@@ -129,7 +129,7 @@ td
 #preview-background
 {
   border: 1px solid #aaaaaa;
-  background-image: url('../images/blank_board.png');
+  background-image: url('/images/blank_board.png');
   width: 200px;
   height: 200px;
   margin-bottom: 5px;

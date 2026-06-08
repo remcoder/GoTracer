@@ -5,8 +5,8 @@
 
 <script setup>
 import { ref } from 'vue';
-import GoTracer from './GoTracer.vue';
-import ExampleImage from './ExampleImage.vue';
+import GoTracer from './components/GoTracer.vue';
+import ExampleImage from './components/ExampleImage.vue';
 
 const imageUrl = ref('');
 </script>

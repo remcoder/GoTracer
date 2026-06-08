@@ -1,6 +1,6 @@
 <script setup>
 import Preview from './Preview.vue';
-import { GoTracer } from './js/goTracer.js';
+import { GoTracer } from '../lib/gotracer.js';
 import ColorPlot from './ColorPlot.vue';
 import { onMounted, ref } from 'vue';
 let goTracer;
