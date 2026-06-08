@@ -15,10 +15,9 @@
     "module": "ESNext",
     "noEmit": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "lib/*": ["src/lib/*"]
+      "@/*": ["./src/*"],
+      "lib/*": ["./src/lib/*"]
     }
   },
   "include": ["src/**/*.js", "src/**/*.d.ts"],

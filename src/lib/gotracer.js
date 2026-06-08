@@ -85,7 +85,7 @@ export class GoTracer {
     this.assignSets(sets);
     this.drawCrosshairs();
 
-    this.onScanCallback && this.onScanCallback();
+    this.onScanCallback?.();
   }
   drawImage() {
     const aspectRatio = this.img.width / this.img.height;
