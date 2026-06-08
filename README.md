@@ -1,42 +1,93 @@
 # Go Tracer
 
-A web application that scans images of Go boards and converts them to SGF (Smart Game Format) files.
+Go Tracer is a static web application that detects stones in photographs of
+19x19 Go boards and exports the detected position as an SGF file.
+
+All image processing runs in the browser. The application has no backend or
+persistent data store.
 
 ## Features
 
-- Upload or provide URL of a Go board image
-- Position 4 corners on the board
-- Automatic stone detection (black/white)
-- Generates downloadable SGF file
-- Visual feedback with color plot showing stone detection
+- Select a bundled example image
+- Position four corner markers over the board
+- Automatically classify intersections as black stones, white stones, or empty
+- Preview the detected board position
+- Inspect the color-space clustering used for detection
+- Download the position as `game.sgf`
 
-## Technology Stack
+## Limitations
 
-- Backend: Python on Google App Engine
-- Frontend: HTML5 Canvas, JavaScript
-- Data Model: Google App Engine Datastore
+- The scanner always samples a 19x19 grid.
+- The current interface only supports the bundled example images; it does not
+  provide image upload or URL input.
+- Detection quality depends on accurate corner placement, lighting, and a clear
+  view of the board.
+
+## Technology
+
+- Vue 3
+- Vite
+- HTML Canvas
+- JavaScript with TypeScript checking
+- Firebase Hosting configuration for deployment
 
 ## Requirements
 
-- Modern browser (Firefox 3+, Safari 4+, Chrome 2+, Opera 10+)
-- Google App Engine SDK for local development
+- Node.js 20.19+ or 22.12+
+- pnpm 10
+- A modern browser
+
+## Local Development
+
+Install dependencies and start the Vite development server:
+
+```sh
+pnpm install
+pnpm run dev
+```
+
+The application is served at <http://localhost:3000>.
 
 ## Usage
 
-1. Enter URL of a Go board image
-2. Position the 4 corners by dragging the crosshairs
-3. Download the generated SGF file
+1. Select one of the bundled example images.
+2. Drag the four corner markers onto the outer intersections of the Go board.
+3. Review the detected position and color plot.
+4. Select **download** to save the position as `game.sgf`.
+
+The SGF contains setup properties (`AB` and `AW`) for the detected stones; it
+does not reconstruct move order.
+
+## Checks
+
+```sh
+pnpm run lint
+pnpm run typecheck
+pnpm run build
+```
+
+There is currently no automated test suite.
+
+## Firebase Preview
+
+Build the application and serve it with the Firebase Hosting emulator:
+
+```sh
+pnpm run preview:firebase
+```
+
+The emulator serves the site at <http://localhost:5000>. Pushes to `master`
+run linting, type checking, and a production build before deployment through
+the Firebase Hosting GitHub Actions workflow.
 
 ## Project Structure
 
-- `main.py`: Main request handler and application logic
-- `models/trace.py`: Data model for storing board traces
-- `templates/gotracer.html`: Main web interface
 - `src/components/`: Vue interface components
-- `src/lib/`: Core board scanning and visualization logic
-- `src/styles/`: Application stylesheets
-- `public/images/`: UI and sample images
+- `src/lib/`: Board geometry, stone detection, SGF generation, and preview logic
+- `src/styles/`: Application styles
+- `public/images/`: UI assets and bundled example images
+- `firebase.json`: Firebase Hosting and emulator configuration
+- `.github/workflows/deploy-firebase.yml`: Production deployment workflow
 
-## Version
-
-v0.29 (Oct 29 2009)
+Historical release notes for the original implementation are in
+`CHANGELOG.txt`.
