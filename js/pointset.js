@@ -28,9 +28,9 @@ export class PointSet {
   }
   getSpread() {
     let total = 0;
-    const thisSet = this;
-    this.points.map(function (p) { total += Math.abs(thisSet.x - p.x) + Math.abs(thisSet.y - p.y); });
+    this.points.forEach((p) => {
+      total += Math.abs(this.x - p.x) + Math.abs(this.y - p.y);
+    });
     return 100 - total / this.points.length;
   }
 }
-

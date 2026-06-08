@@ -9,16 +9,12 @@ export class GoTracer {
     this.img.src = imgUrl;
     this.img.onload = () => {
       this.startScan();
-
-      // emit an event to notify that the image is loaded
-      this.onScanCallback && this.onScanCallback({
-        blackSet: this.blackSet,
-        whiteSet: this.whiteSet,
-      });
     };
 
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
+    this.canvasWidth = canvas.width;
+    this.canvasHeight = canvas.height;
 
     this.debugCanvas = debugCanvas;
     this.debugCtx = debugCanvas?.getContext('2d');
@@ -104,8 +100,8 @@ export class GoTracer {
     // - 1 for anti-aliasing effect
     const w = this.crosshair.width / this.canvasWidth * 900 - 1;
     const h = this.crosshair.height / this.canvasHeight * 600 - 1;
-    for (let i = 0; i < this.corners.length; i++)
-      this.ctx.drawImage(this.crosshair, this.corners[i].x - w / 2, this.corners[i].y - h / 2, w, h);
+    for (const corner of this.corners)
+      this.ctx.drawImage(this.crosshair, corner.x - w / 2, corner.y - h / 2, w, h);
     this.ctx.globalAlpha = 1;
   }
   calcRadii() {
@@ -195,6 +191,9 @@ export class GoTracer {
             indexOfClosestSet2 = j;
           }
         }
+      }
+      if (indexOfClosestSet1 === undefined || indexOfClosestSet2 === undefined) {
+        return;
       }
       sets[indexOfClosestSet1].add(sets[indexOfClosestSet2]);
       sets.splice(indexOfClosestSet2, 1);

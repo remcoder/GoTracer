@@ -20,7 +20,7 @@ onMounted(() => {
   draw(stones);
 
   watch(() => props.stones, (newStones) => {
-    console.log('Stones updated:', newStones);
+    console.debug('Stones updated:', newStones);
     draw(newStones);
   }, { deep: true });
 });
@@ -28,10 +28,10 @@ onMounted(() => {
 
 
 function drawDebug(points, color) {
-  console.log('Drawing debug points:', points, 'with color:', color);
+  console.debug('Drawing debug points:', points, 'with color:', color);
   ctx.fillStyle = color;
   for (let j = 0; j < points.length; j++) {
-    console.log('Drawing point:', points[j]);
+    console.debug('Drawing point:', points[j]);
     const p = points[j];
     ctx.fillRect(p.y / 2 - 1, p.x / 2 + 128 - 2, 2, 4);
   }
@@ -40,7 +40,7 @@ function drawDebug(points, color) {
 }
 
 function draw(newStones) {
-  console.log('Drawing color plot with stones:', newStones,);
+  console.debug('Drawing color plot with stones:', newStones,);
   ctx.clearRect(0, 0, colorPlotCanvas.value.width, colorPlotCanvas.value.height);
   ctx.fillStyle = 'white';
   ctx.fillRect(0, 0, colorPlotCanvas.value.width, colorPlotCanvas.value.height);
