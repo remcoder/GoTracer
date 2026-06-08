@@ -4,6 +4,9 @@ import { GoTracer } from '../lib/gotracer.js';
 import ColorPlot from './ColorPlot.vue';
 import { onMounted, ref } from 'vue';
 let goTracer;
+const imageCanvas = ref(null);
+const isReady = ref(false);
+const scanError = ref('');
 
 const props = defineProps({
   imageUrl: {
@@ -28,14 +31,20 @@ const stones = ref ({
 });
 
 onMounted(() => {
-  const image = document.getElementById('image');
-  const colorPlot = document.getElementById('colorPlot');
-
-  goTracer = new GoTracer(props.imageUrl, image);
+  goTracer = new GoTracer(props.imageUrl, imageCanvas.value);
+  goTracer.onScanStart(() => {
+    isReady.value = false;
+    scanError.value = '';
+  });
   goTracer.onScan((data) => {
     stones.value.blackSet = data.blackSet;
     stones.value.whiteSet = data.whiteSet;
     stones.value.boardSet = data.boardSet;
+    isReady.value = true;
+  });
+  goTracer.onError((error) => {
+    isReady.value = false;
+    scanError.value = error.message || 'The board scan failed.';
   });
 });
 
@@ -46,17 +55,25 @@ const handleMove = (event) => {
 };
 const handleDown = (event) => {
   if (goTracer) {
+    event.currentTarget.setPointerCapture(event.pointerId);
     goTracer.handleDown(event);
   }
 };
 const handleUp = (event) => {
   if (goTracer) {
     goTracer.handleUp(event);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
   }
 };
 
 
   const downloadSGF = () => {
+    if (!isReady.value || !goTracer) {
+      return;
+    }
+
     const sgfContent = goTracer.getSGF();
     if (!sgfContent) {
       alert('Could not generate SGF. Ensure corners are positioned correctly.');
@@ -81,10 +98,11 @@ const handleUp = (event) => {
     <tr>
       <td rowspan="3">
         <h2 class="step"><span class="number">2. </span>Position the 4 corners <span id="match"></span></h2>
-        <canvas   id="image" width="900" height="600"
-          @mousedown="handleDown"
-          @mousemove="handleMove"
-          @mouseup="handleUp"
+        <canvas ref="imageCanvas" id="image" width="900" height="600"
+          @pointerdown="handleDown"
+          @pointermove="handleMove"
+          @pointerup="handleUp"
+          @pointercancel="handleUp"
         ></canvas>
       </td>
       <td>
@@ -92,7 +110,15 @@ const handleUp = (event) => {
         <h2 class="step"><span class="number">3. </span>Download</h2>
         <Preview v-if="stones" :stones="stones" />
 
-        <button @click="downloadSGF" class="download">download</button>
+        <p v-if="scanError" class="scan-error" role="alert">{{ scanError }}</p>
+        <button
+          @click="downloadSGF"
+          :disabled="!isReady"
+          :aria-busy="!isReady && !scanError"
+          class="download"
+        >
+          download
+        </button>
         <button @click="emit('back')" class="change-image">change image</button>
 
       </td>

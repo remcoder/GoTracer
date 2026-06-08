@@ -8,9 +8,9 @@
     "preview:firebase": "pnpm run build && firebase emulators:start --only hosting --project demo-gotracer",
     "firebase:preview": "pnpm run preview:firebase",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint . --ext .js,.ts",
-    "lint:fix": "eslint . --ext .js,.ts --fix",
-    "typecheck": "tsc --noEmit"
+    "lint": "eslint . --ext .js,.ts,.vue",
+    "lint:fix": "eslint . --ext .js,.ts,.vue --fix",
+    "typecheck": "vue-tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -21,10 +21,13 @@
     "@typescript-eslint/parser": "^8.61.0",
     "@vitejs/plugin-vue": "^6.0.7",
     "eslint": "^8.56.0",
+    "eslint-plugin-vue": "^10.9.2",
     "firebase-tools": "^14.19.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.16",
-    "vite-plugin-checker": "^0.11.0"
+    "vite-plugin-checker": "^0.11.0",
+    "vue-eslint-parser": "^10.4.1",
+    "vue-tsc": "^3.3.4"
   },
   "dependencies": {
     "vue": "^3.5.35"

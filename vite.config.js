@@ -7,9 +7,9 @@ export default defineConfig({
   plugins: [
     vue(),
     checker({
-      typescript: true,
+      vueTsc: true,
       eslint: {
-        lintCommand: 'eslint "./src/**/*.js"'
+        lintCommand: 'eslint "./src/**/*.{js,ts,vue}"'
       }
     })
   ],

@@ -100,6 +100,13 @@ td
 #image
 {
   border: 1px solid #aaaaaa;
+  touch-action: none;
+}
+
+.scan-error
+{
+  color: #a40000;
+  max-width: 200px;
 }
 
 .plotHeader

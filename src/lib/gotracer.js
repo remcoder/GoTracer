@@ -10,6 +10,9 @@ export class GoTracer {
     this.img.onload = () => {
       this.startScan();
     };
+    this.img.onerror = () => {
+      this.onErrorCallback?.(new Error('Could not load the selected image.'));
+    };
 
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
@@ -41,15 +44,20 @@ export class GoTracer {
 
   onScan(callback) {
     this.onScanCallback = () => {
-
-      console.log('GoTracer scan completed.');
-        callback({
-          blackSet: this.blackSet,
-          whiteSet: this.whiteSet,
-          boardSet: this.boardSet,
-        });
-      
+      callback({
+        blackSet: this.blackSet,
+        whiteSet: this.whiteSet,
+        boardSet: this.boardSet,
+      });
     };
+  }
+
+  onScanStart(callback) {
+    this.onScanStartCallback = callback;
+  }
+
+  onError(callback) {
+    this.onErrorCallback = callback;
   }
 
   setCorners(newCorners) {
@@ -75,17 +83,24 @@ export class GoTracer {
     return closest;
   }
   startScan() {
-    this.drawImage();
-    this.calcRadii();
+    this.onScanStartCallback?.();
 
-    const sets = this.getSets(new Rect3D(this.corners));
+    try {
+      this.drawImage();
+      this.calcRadii();
 
-    this.quickPartition(sets, 50);
-    this.partition(sets, 3);
-    this.assignSets(sets);
-    this.drawCrosshairs();
+      const sets = this.getSets(new Rect3D(this.corners));
 
-    this.onScanCallback?.();
+      this.quickPartition(sets, 50);
+      this.partition(sets, 3);
+      this.assignSets(sets);
+      this.drawCrosshairs();
+
+      this.onScanCallback?.();
+    } catch (error) {
+      const scanError = error instanceof Error ? error : new Error('The board scan failed.');
+      this.onErrorCallback?.(scanError);
+    }
   }
   drawImage() {
     const aspectRatio = this.img.width / this.img.height;
@@ -235,23 +250,11 @@ export class GoTracer {
 
 
   getCoords = (e) => {
-    let x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft; // Added documentElement scroll
-    let y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop; // Added documentElement scroll
-
-    for (let el = this.canvas; el; el = el.offsetParent) {
-      x -= el.offsetLeft;
-      y -= el.offsetTop;
-    }
-
-    // Adjust for canvas scaling if CSS width/height differs from canvas width/height
     const rect = this.canvas.getBoundingClientRect();
-    x = (x / rect.width) * this.canvas.width;
-    y = (y / rect.height) * this.canvas.height;
+    const x = Math.max(0, Math.min(this.canvas.width, ((e.clientX - rect.left) / rect.width) * this.canvas.width));
+    const y = Math.max(0, Math.min(this.canvas.height, ((e.clientY - rect.top) / rect.height) * this.canvas.height));
 
-    return {
-      x: x,
-      y: y
-    };
+    return { x, y };
   };
 
   handleDown = (e) => {
@@ -272,6 +275,7 @@ export class GoTracer {
     this.currentCorner.x = p.x;
     this.currentCorner.y = p.y;
 
+    this.onScanStartCallback?.();
     window.clearTimeout(this.timer);
     this.timer = window.setTimeout(() => this.startScan(), 20);
   };
