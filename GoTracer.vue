@@ -5,6 +5,14 @@ import ColorPlot from './ColorPlot.vue';
 import { onMounted, ref } from 'vue';
 let goTracer;
 
+const props = defineProps({
+  imageUrl: {
+    type: String,
+    default: '/images/examples/goban14.png'
+  }
+});
+
+
 const stones = ref ({
   blackSet: {
     points: [],
@@ -21,7 +29,7 @@ onMounted(() => {
   const image = document.getElementById('image');
   const colorPlot = document.getElementById('colorPlot');
 
-  goTracer = new GoTracer('/images/examples/goban1.jpg', image);
+  goTracer = new GoTracer(props.imageUrl, image);
   goTracer.onScan((data) => {
     stones.value.blackSet = data.blackSet;
     stones.value.whiteSet = data.whiteSet;

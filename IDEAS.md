@@ -1,0 +1,25 @@
+- better UI
+- store images and results on server
+- gallery of scanned boards
+- add more sgf data via form
+  - # of prisonors as number input
+  - date
+  - title
+  - player names
+  - type of rules
+  - score (for finished games)
+- support mobile camera
+
+- better scan algo
+- find board automatically using SAM
+- find stones (positions) automatically using SAM (all circles that are on the board)
+  - fallback to sampling location based on grid
+- estimate grid position based on stone locations if possible
+  - for this we only need 3 stones that are not on a line: this gives us already grid spacing in 2 directions
+
+- add manual correction:
+  - click change position color
+  - move board and or grid
+  - this can be used to fix the algo
+- add feedback
+  - user can flag if the algo doesn't work well
